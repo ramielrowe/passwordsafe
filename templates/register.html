@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<form action="{% url 'safe:register' %}" method="post" id="register_form"
+      class="form-register" role="form">
+  <h2 class="form-register-heading">Register</h2>
+  {% csrf_token %}
+  <input type="text" class="form-control" id="username" name="username" placeholder="Username" required autofocus value="{{ request.POST.username }}">
+  <input type="password" class="form-control password" id="password" name="password" placeholder="Password" required>
+  <input type="password" class="form-control password_repeat" id="password_repeat" name="password_repeat" placeholder="Repeat Password" required>
+  <div class="btn-group">
+    <button class="btn btn-primary" type="submit">Register</button>
+    <button class="btn btn-danger" type="button" onclick="location.href='{% url 'safe:login' %}'">Back to Login</button>
+  </div>
+</form>
+{% endblock %}

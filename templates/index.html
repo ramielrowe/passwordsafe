@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <form action="{% url 'safe:create_password' %}" method="post" role="form"
+          class="form-inline form-new-password">
+      {% csrf_token %}
+      <input type="text" class="form-control" name="name" placeholder="Name" required>
+      <input type="password" class="form-control" name="password" placeholder="Password" required>
+      <input type="password" class="form-control" name="password_repeat" placeholder="Repeat Password" required>
+      <input type="password" class="form-control" name="key" placeholder="Key" required>
+      <input type="password" class="form-control" name="key_repeat" placeholder="Repeat Key" required>
+      <button class="btn btn-primary" type="submit">Create</button>
+    </form>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Show</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for name in password_names %}
+      <tr>
+        <td><div class="password-name">{{ name }}</div></td>
+        <td>
+          <form class="form-inline form-show-password" action="{% url 'safe:show_password' %}" method="post" role="form">
+            {% csrf_token %}
+            <input type="hidden" name="name" value="{{ name }}" />
+            <div class="input-group">
+              <input class="form-control" type="password" name="key" placeholder="Key"/>
+              <span class="input-group-btn">
+                <button class="btn btn-sm btn-primary" type="submit">Show</button>
+              </span>
+            </div>
+          </form>
+        </td>
+        <td>
+          <form class="form-inline form-delete-password" action="{% url 'safe:delete_password' %}" method="post" role="form">
+            {% csrf_token %}
+            <input type="hidden" name="name" value="{{ name }}" />
+            <button class="btn btn-sm btn-danger" type="submit">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    <tbody>
+  </table>
+{% endblock %}
